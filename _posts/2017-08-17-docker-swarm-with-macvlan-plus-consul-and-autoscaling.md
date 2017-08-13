@@ -9,7 +9,10 @@ So you have an existing environment. You use Consul for service discovery. Life 
 
 I'd consider this as a *bridge the gap* solution that may not be long lived. You may end up with k8s in the end, using overlay networking, enjoying the modularity it brings. This solution brings the least risk, easiest implementation and highest performance when you need it. You need to prove that the most basic Docker experience wont degrade the performance of your apps. If you were to jump straight to overlays, reverse proxies, etc, you are taking on a lot of extra baggage without having even traveled anywhere.
 
-Lastly, Kelsey Hightower thinks (or thought) running without all the fluff was cool, last year. https://twitter.com/kelseyhightower/status/716987913917964288
+Lastly, Kelsey Hightower thinks (or thought) running without all the fluff was cool, last year. 
+<blockquote class="twitter-tweet" data-conversation="none" data-lang="en"><p lang="en" dir="ltr">ipvlan and pure L3 network automation will unwind the mess that is container networking. No more bridges. No more NAT. No more overlays.</p>&mdash; Kelsey Hightower (@kelseyhightower) <a href="https://twitter.com/kelseyhightower/status/716987913917964288">April 4, 2016</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 
 ## Networking (Macvlan)
 You may already have a bunch of VLANs and subnets. Perhaps you want containers to ride on your existing VLANs and subnets. Macvlan (and Ipvlan) allow you to slap a MAC and an IP (Macvlan) or just an IP (ipvlan) on a container. You also don't want to introduce any more complexity and overhead into packets getting to your containers (such as overlay networking and reverse proxies).

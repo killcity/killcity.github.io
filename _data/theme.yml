@@ -5,23 +5,22 @@ highlight_color: '#3498db'
 
 # Profile links on the left sidebar, leave blank to ignore
 social:
-  github: swanson
+  github: killcity
   #bitbucket: philipj
-  hacker_news: swanson
+  #hacker_news: swanson
   #stackexchange: 348619
   #stackoverflow: 348619
-  twitter: _swanson
+  twitter: killcity
   #facebook: zuck
   #tumblr: animalygifs
-  #linkedin: philipjagielski
+  linkedin: bjbadyk
   #gplus: 110552447039675960964
-  #gravatar: 86e6ff8f75f9daef42d53b7f8002fd95
+  gravatar: e65aafdecc5b0bae0a3a5ceef50b80e9
   #flickr: johndoe
 
-# "Hi, I'm _______"
-name: Matt Swanson
-email: test@example.com
-tagline: "weak opinions, strongly held"
+name: BJ Badyk
+email: bj@killcity.io
+tagline: "creator of worlds"
 
 # Google Analytics key, leave blank to ignore
 google_analytics_key: UA-xxxx-x

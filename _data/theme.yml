@@ -10,7 +10,7 @@ social:
   #hacker_news: swanson
   #stackexchange: 348619
   #stackoverflow: 348619
-  twitter: killcity
+  #twitter: killcity
   #facebook: zuck
   #tumblr: animalygifs
   linkedin: bjbadyk
@@ -20,7 +20,7 @@ social:
 
 name: BJ Badyk
 email: bj@killcity.io
-tagline: "creator of worlds"
+tagline: "devops demon"
 
 # Google Analytics key, leave blank to ignore
 google_analytics_key: UA-xxxx-x

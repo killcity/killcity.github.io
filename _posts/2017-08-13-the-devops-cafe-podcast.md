@@ -1,6 +1,9 @@
 ---
 comments: true
-disqus_identifier: 393493
+tags:
+  - docker
+  - devops
+  - podcast
 ---
 I'm always on the pursuit for decent podcasts. Somehow, I stumbled onto <a href="http://devopscafe.org/"> The Devops Cafe Podcast</a>, which is hosted by John Willis from Docker and Damon Edwards from Rundeck. They have some really great interviews with the likes of Kelsey Hightower and James Turnbull. Great stuff!
 

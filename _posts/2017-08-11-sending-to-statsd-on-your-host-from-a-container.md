@@ -1,4 +1,4 @@
-So you'd like to run a single collector on your dockerhosts. You want to send to that instance from each container running on the host. I spent a a couple hours trying to make this happen using environment variables and eventually gave up.
+So you'd like to run a single collector on your dockerhosts. You want to send to that instance from each container running on the host. I spent a a couple hours trying to make this happen using environment variables and eventually gave up. I'm also using Macvlan. The same should apply for Ipvlan.
 
 Here's what I did.
 

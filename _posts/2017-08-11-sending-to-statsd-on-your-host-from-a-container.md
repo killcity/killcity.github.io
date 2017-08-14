@@ -1,6 +1,5 @@
 ---
 comments: true
-disqus_identifier: 923929
 ---
 
 So you'd like to run a single collector on your dockerhosts. You want to send to that instance from each container running on the host. I spent a a couple hours trying to make this happen using environment variables and eventually gave up. I'm also using Macvlan. The same should apply for Ipvlan.
@@ -40,7 +39,7 @@ Make it rain. Now you can point your statsd client to `dockerhost`.
 *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
 /*
 var disqus_config = function () {
-var disqus_identifier = '{% if page.disqus_identifier %}{{ page.disqus_identifier}}{% else %}{{ site.url }}{{ page.url }}{% endif %}';
+var disqus_identifier = "{{ page.url }}";
 var disqus_url = '{{ site.url }}{{ page.url }}';
 this.page.url = disqus_url;
 this.page.identifier = disqus_identifier;

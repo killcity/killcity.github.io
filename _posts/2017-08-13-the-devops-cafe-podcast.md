@@ -5,7 +5,6 @@ disqus_identifier: 393493
 I'm always on the pursuit for decent podcasts. Somehow, I stumbled onto <a href="http://devopscafe.org/"> The Devops Cafe Podcast</a>, which is hosted by John Willis from Docker and Damon Edwards from Rundeck. They have some really great interviews with the likes of Kelsey Hightower and James Turnbull. Great stuff!
 
 {% if page.comments %}
-
 <div id="disqus_thread"></div>
 <script>
 
@@ -14,8 +13,10 @@ I'm always on the pursuit for decent podcasts. Somehow, I stumbled onto <a href=
 *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
 /*
 var disqus_config = function () {
-this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+var disqus_identifier = "{{ page.url }}";
+var disqus_url = '{{ site.url }}{{ page.url }}';
+this.page.url = disqus_url;
+this.page.identifier = disqus_identifier;
 };
 */
 (function() { // DON'T EDIT BELOW THIS LINE

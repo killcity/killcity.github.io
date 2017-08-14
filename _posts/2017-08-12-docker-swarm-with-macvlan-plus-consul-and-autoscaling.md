@@ -1,5 +1,6 @@
 ---
 comments: true
+disqus_identifier: 239239
 ---
 ## TL;DR 
 This will get you routable containers with IPs on your existing subnets, advertising to Consul. They will also be scalable and placed across a cluster of Swarm hosts. It's assumed that you are already running Consul, so if not, there are a ton of tutorials out there. It's also assumed you know how to install Docker and various Linux kernels.
@@ -205,8 +206,10 @@ I'm always happy to help if anyone needs a hand. I can be found on dockercommuni
 *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
 /*
 var disqus_config = function () {
-this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+var disqus_identifier = '{% if page.disqus_identifier %}{{ page.disqus_identifier}}{% else %}{{ site.url }}{{ page.url }}{% endif %}';
+var disqus_url = '{{ site.url }}{{ page.url }}';
+this.page.url = disqus_url;
+this.page.identifier = disqus_identifier;
 };
 */
 (function() { // DON'T EDIT BELOW THIS LINE

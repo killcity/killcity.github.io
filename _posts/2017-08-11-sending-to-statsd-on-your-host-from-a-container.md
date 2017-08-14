@@ -12,7 +12,7 @@ mydockerhost# echo "`hostname -i`     dockerhost" >> /etc/hosts
 ```
 
 ## Mount it
-When you launch your container, make sure you set a bind mount for your host's /etc/hosts to mount to your container's /host/etc/hosts. Obviously you can mount to whatever directory you want, but I just to toss everything in /host in my containers.
+When you launch your container, make sure you set a bind mount for your host's /etc/hosts to mount to your container's /host/etc/hosts. Obviously you can mount to whatever directory you want, but I just to toss everything in /host.
 ```
 mydockerhost# docker service create --name myapp --mount type=bind,src=/etc/hosts,dst=/host/etc/hosts:ro myapp/myapp
 ```

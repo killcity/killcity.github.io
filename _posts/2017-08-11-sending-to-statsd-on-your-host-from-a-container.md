@@ -14,13 +14,13 @@ mydockerhost# echo "`hostname -i`     dockerhost" >> /etc/hosts
 ## Mount it
 When you launch your container, make sure you set a bind mount for your host's /etc/hosts to mount to your container's /host/etc/hosts. Obviously you can mount to whatever directory you want, but I just to toss everything in /host in my containers.
 ```
-docker service create --name myapp --mount type=bind,src=/etc/hosts,dst=/host/etc/hosts:ro myapp/myapp
+mydockerhost# docker service create --name myapp --mount type=bind,src=/etc/hosts,dst=/host/etc/hosts:ro myapp/myapp
 ```
 
 ## Smarten up your container's hosts file
 In the entrypoint script for your container, toss in some logic that greps `/host/etc/hosts` for "dockerhost" and echos that one line, appending it to your container's `/etc/hosts` file.
 ```
-grep dockerhost /host/etc/hosts >> /etc/hosts
+mydockerhost# grep dockerhost /host/etc/hosts >> /etc/hosts
 ```
 
 ## Party

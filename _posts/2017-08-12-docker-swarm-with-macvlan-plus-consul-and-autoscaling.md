@@ -1,7 +1,6 @@
 ---
 comments: true
 ---
-
 ## TL;DR 
 This will get you routable containers with IPs on your existing subnets, advertising to Consul. They will also be scalable and placed across a cluster of Swarm hosts. It's assumed that you are already running Consul, so if not, there are a ton of tutorials out there. It's also assumed you know how to install Docker and various Linux kernels.
 

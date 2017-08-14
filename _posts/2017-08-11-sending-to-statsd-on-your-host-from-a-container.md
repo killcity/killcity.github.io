@@ -2,7 +2,7 @@ So you'd like to run a single collector on your dockerhosts. You want to send to
 
 Here's what I did.
 
-## Launch your statsd/dogstatds container
+## Launch your statsd/dogstatsd container
 1) Spin up statds, dogstats, whatever collector du jour, on your dockerhost. Run it with `--network="host"`. Make sure you also publish the ports its listening on (8125).
 
 ## Give /etc/hosts some love

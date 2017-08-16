@@ -137,8 +137,6 @@ exec /opt/consul/bin/consul agent -config-dir /opt/consul/consul.json
 ## Running a container as a service
 ```
 manager1# docker service create --network swarm-vlan40_net --name portainer portainer/portainer
-```
-```
 manager1# nkbu2j5suypr        portainer             replicated          1/1                 portainer/portainer:latest
 ```
 

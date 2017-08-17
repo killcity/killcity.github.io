@@ -4,6 +4,7 @@ tags:
   - docker
   - swarm
   - macvlan
+  - networking
   - consul
   - autoscaling
   - orbiter

@@ -34,7 +34,7 @@ In my case, I'm using Consul. It's ubiquitous. Sure, Kubernetes and Swarm both p
 ## Orchestration (Swarm)
 Swarm can be setup in minutes. You mark a node (preferably more than one to maintain quorum) as a manager and it will provide you a tokened url you can paste onto future worker nodes. Kubernetes, being more modular and feature packed, suffers as it's installation is a major pain. It also comes bundled with a bunch of features that are completely unnecessary for a minimalist orchestration layer.
 
-## The idea
+## Configure OS Networking
 
 ### Trunk existing VLANs to your Dockerhosts
 * You dont *have* to, but I would recommend dedicating at least one VLAN/Subnet for containers to ride on
@@ -63,8 +63,10 @@ If you just want to ride on a single ip'd interface on your host, that's cool to
 ```
 
 
-### Install Docker 17.06 (docker-ce)
-   - I recommend running a recent kernel, ie: 4.11.x
+## Install Docker 17.06 (docker-ce)
+* I recommend running a recent kernel, ie: 4.11.x
+
+## Configure Docker Networking
 
 ### Split your subnet into a few chunks, so you can assign those chunks to each Docker host
 * Why in hell do we have to chunk it out? Why can't we specify a global range and leave the IPAM up to Docker? As it sits, Macvlan and IPvlan have dependencies on the underlay network configuration, which swarm manager doesn't currently manage. The current solution is to configure on a per-host basis or you can take advantage of the remote ipam driver, which would allow you to manage via a custom ipam server or something like infoblox (who has written a driver). This issue is on Docker's radar and they are actively working on a more elegant solution (they wanted to get macvlan +  swarm support in our hands in the meantime, as quickly as possible). https://github.com/eyz is also working on a generic IPAM server that might get open sourced. 
@@ -72,6 +74,8 @@ If you just want to ride on a single ip'd interface on your host, that's cool to
 * There is an experimental DHCP driver (https://gist.github.com/nerdalert/3d2b891d41e0fa8d688c) that will allow you to set a global Macvlan scope, but I havent had a chance to try it.
 * If you have 5 Docker hosts, split out your ranges in whatever chunks you feel appropriate. If you think you'll only ever run 5 containers on each host, maybe a /29 is fine for you, for that subnet. 
 
+
+### Create per-node subnet ranges / networks
 My network is 172.80.0.0/16. I'm going to give each host a /24. I have preexisting hosts already on part of the first /24 of that network, so im going to start at 1.0 and move on. I dont need a network or broadcast address because the ranges fall inside the larger /16 supernet. The network name (in this case `vlan40_net` is arbitrary).
 
 ```
@@ -84,20 +88,21 @@ worker1# docker network create --config-only --subnet 172.80.0.0/16 --gateway 17
 worker2# docker network create --config-only --subnet 172.80.0.0/16 --gateway 172.80.0.1 -o parent=bond0.40 --ip-range 10.90.3.0/24 vlan40_net
 ```
 
+### Create swarm network
 Now I'm going to create the swarm enabled network, on the manager. This network references the config-only per-node networks we just created. The network name (swarm-vlan40_net) is arbitary.
 
 ```
 manager1# docker network create -d macvlan --scope swarm --config-from vlan40_net swarm-vlan40_net
 ```
 
-Bask in the glory of Macvlan + Swarm
+### Bask in the glory of Macvlan + Swarm
 ```
 manager1# docker network ls|grep vlan40
 0c1e0ab98806        vlan40_net            null                local
 znxv8ab5t3n1        swarm-vlan40_net      macvlan             swarm
 ```
 
-### Bundle the Consul agent inside your container and advertise in the same fashion you're used to.
+## Bundle the Consul agent inside your container and advertise in the same fashion you're used to.
 * Yes, I know about Registrator. The project is stale and doesn't seem to work with Macvlan enabled Swarm. I spent hours trying to get it to work with no avail. Works fine with `--network="host"`, but not with Macvlan/Swarm. Let me know if you are able to get it to work.
 * Don't worry: It's ok to bundle the agent inside the container along with your app, at least for now. You'll still be a hero.
 * Since your container will have a real ip, it will appear in Consul as a host and will be routable.

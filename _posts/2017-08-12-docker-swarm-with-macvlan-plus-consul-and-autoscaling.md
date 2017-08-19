@@ -13,7 +13,7 @@ tags:
 ## TL;DR 
 This will get you routable containers with IPs on your existing subnets, advertising to Consul. They will also be scalable and placed across a cluster of Swarm hosts. It's assumed that you are already running Consul, so if not, there are a ton of tutorials out there. It's also assumed you know how to install Docker and various Linux kernels.
 
-Bonus: We add an autoscaling API called Orbiter (https://gianarb.it/blog/orbiter-the-swarm-autoscaler-moves).
+Bonus: We add an autoscaling API called <a href="https://gianarb.it/blog/orbiter-the-swarm-autoscaler-moves">Orbiter</a>).
 
 ## I *just* want to run containers, like now, on my existing infrastructure and networks!
 So you have an existing environment. You use Consul for service discovery. Life is good. Containers are now a thing and you want to work them in without having to worry about overlay networking or reverse proxies. You also don't want to add extra latency (as some naysayers could use it as fuel to kill your hopes and dreams). Lastly, you don't have a lot of time to invest in a complex orchestration tool, such as Kuberenetes. With Macvlan support added to Docker 17.06, we can rock 'n roll and get shit done.
@@ -71,7 +71,7 @@ If you just want to ride on a single ip'd interface on your host, that's cool to
 ### Split your subnet into a few chunks, so you can assign those chunks to each Docker host
 * Why in hell do we have to chunk it out? Why can't we specify a global range and leave the IPAM up to Docker? As it sits, Macvlan and IPvlan have dependencies on the underlay network configuration, which swarm manager doesn't currently manage. The current solution is to configure on a per-host basis or you can take advantage of the remote ipam driver, which would allow you to manage via a custom ipam server or something like infoblox (who has written a driver). This issue is on Docker's radar and they are actively working on a more elegant solution (they wanted to get macvlan +  swarm support in our hands in the meantime, as quickly as possible). https://github.com/eyz is also working on a generic IPAM server that might get open sourced. 
 * CIDRs are used to define ranges, not separate, routable subnets. To the traditional network engineer/admin, this might seem odd, but it's just the way they elected to define ranges.
-* There is an experimental DHCP driver (https://gist.github.com/nerdalert/3d2b891d41e0fa8d688c) that will allow you to set a global Macvlan scope, but I havent had a chance to try it.
+* There is an <a href="https://gist.github.com/nerdalert/3d2b891d41e0fa8d688c">experimental DHCP driver</a> that will allow you to set a global Macvlan scope, but I havent had a chance to try it.
 * If you have 5 Docker hosts, split out your ranges in whatever chunks you feel appropriate. If you think you'll only ever run 5 containers on each host, maybe a /29 is fine for you, for that subnet. 
 
 

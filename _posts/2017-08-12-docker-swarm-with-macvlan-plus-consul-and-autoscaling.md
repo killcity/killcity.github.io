@@ -103,7 +103,7 @@ znxv8ab5t3n1        swarm-vlan40_net      macvlan             swarm
 ```
 
 ## Bundle the Consul agent inside your container and advertise in the same fashion you're used to.
-* Yes, I know about Registrator. The project is stale and doesn't seem to work with Macvlan enabled Swarm. I spent hours trying to get it to work with no avail. Works fine with `--network="host"`, but not with Macvlan/Swarm. Let me know if you are able to get it to work.
+* But what about <a href="https://github.com/gliderlabs/registrator">Registrator</a>? The project is stale and doesn't seem to work with Macvlan enabled Swarm. I spent hours trying to get it to work with no avail. Works fine with `--network="host"`, but not with Macvlan/Swarm. Let me know if you are able to get it to work.
 * Don't worry: It's ok to bundle the agent inside the container along with your app, at least for now. You'll still be a hero.
 * Since your container will have a real ip, it will appear in Consul as a host and will be routable.
 * Consul needs to run last and stay running, it will get executed via an entrypoint script with `exec`. It needs to be run with `exec` so it gets the honor of running as `PID 1` (so it can receive SIGTERMs when it's time has come). This allows the agent to leave the cluster gracefully. See below.

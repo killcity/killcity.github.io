@@ -53,6 +53,8 @@ If you just want to ride on a single ip'd interface on your host, that's cool to
 
 ```ip link set dev bond0.40 promisc on```
    
+### If you want your host to be able to talk to it's containers, make sure you add a dummy bridged interface described below
+
 * If the parent interface is IP'd and you want to reach it from your containers on the same subnet, you also need to create a another bridged interface and add a route to that subnet on your Docker host.
 
 * in the case of an ip'd interface on your dockerhost on vlan252:

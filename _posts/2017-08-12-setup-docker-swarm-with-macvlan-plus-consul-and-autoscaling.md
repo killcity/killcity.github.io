@@ -13,7 +13,7 @@ tags:
 ## TL;DR 
 This will get you routable containers with IPs on your existing subnets, advertising to Consul. They will also be scalable and placed across a cluster of Swarm hosts. It's assumed that you are already running Consul, so if not, there are a ton of tutorials out there. It's also assumed you know how to install Docker and various Linux kernels.
 
-Bonus: We add an autoscaling API called <a href="https://gianarb.it/blog/orbiter-the-swarm-autoscaler-moves">Orbiter</a>).
+Bonus: We add an autoscaling API called <a href="https://gianarb.it/blog/orbiter-the-swarm-autoscaler-moves">Orbiter</a>.
 
 ## I *just* want to run containers, like now, on my existing infrastructure and networks!
 So you have an existing environment. You use Consul for service discovery. Life is good. Containers are now a thing and you want to work them in without having to worry about overlay networking or reverse proxies. You also don't want to add extra latency (as some naysayers could use it as fuel to kill your hopes and dreams). Lastly, you don't have a lot of time to invest in a complex orchestration tool, such as Kuberenetes. With Macvlan support added to Docker 17.06, we can rock 'n roll and get shit done.

@@ -102,24 +102,26 @@ manager1# docker network ls|grep vlan40
 znxv8ab5t3n1        swarm-vlan40_net      macvlan             swarm
 ```
 
-## Bundle the Consul agent inside your container and advertise in the same fashion you're used to.
-* But what about <a href="https://github.com/gliderlabs/registrator">Registrator</a>? The project is stale and doesn't seem to work with Macvlan enabled Swarm. I spent hours trying to get it to work with no avail. Works fine with `--network="host"`, but not with Macvlan/Swarm. Let me know if you are able to get it to work.
-* Don't worry: <a href="https://docs.docker.com/engine/admin/multi-service_container/">It's ok to bundle the agent inside the container along with your app</a>, at least for now. You'll still be a hero.
+~~## Bundle the Consul agent inside your container and advertise in the same fashion you're used to.~~
+~~* But what about <a href="https://github.com/gliderlabs/registrator">Registrator</a>? The project is stale and doesn't seem to work with Macvlan enabled Swarm. I spent hours trying to get it to work with no avail. Works fine with `--network="host"`, but not with Macvlan/Swarm. Let me know if you are able to get it to work.~~
+~~* Don't worry: <a href="https://docs.docker.com/engine/admin/multi-service_container/">It's ok to bundle the agent inside the container along with your app</a>, at least for now. You'll still be a hero.~~
 * Since your container will have a real ip, it will appear in Consul as a host and will be routable.
-* Consul needs to run last and stay running, it will get executed via an entrypoint script with `exec`. It needs to be run with `exec` so it gets the honor of running as `PID 1` (so it can receive SIGTERMs when it's time has come). This allows the agent to leave the cluster gracefully. See below.
+~~* Consul needs to run last and stay running, it will get executed via an entrypoint script with `exec`. It needs to be run with `exec` so it gets the honor of running as `PID 1` (so it can receive SIGTERMs when it's time has come). This allows the agent to leave the cluster gracefully. See below.~~
+## You can now use Registrator with Macvlan
+See <a href="http://killcity.io/2017/09/14/Registrator-support-for-Macvlan-exists.html">
 
-Excerpt from `Dockerfile`.
-```
-RUN mkdir /opt/consul
-RUN mkdir /opt/consul/bin
-RUN mkdir /opt/consul/data
-COPY entrypoint.sh /
-COPY consul /opt/consul/bin
-COPY consul.json /opt/consul
-```
+~~Excerpt from `Dockerfile`.~~
+~~```~~
+~~RUN mkdir /opt/consul~~
+~~RUN mkdir /opt/consul/bin~~
+~~RUN mkdir /opt/consul/data~~
+~~COPY entrypoint.sh /~~
+~~COPY consul /opt/consul/bin~~
+~~COPY consul.json /opt/consul~~
+~~```~~
 
-* Yes, this example shows a static `consul.json` which contains a hardcoded cluster assignment. This could easily be set to an `env` that gets set at runtime.
-* You'll also notice a little `sed` action... We are mounting /etc/hosts from the dockerhost to /hosts/etc/hosts inside the container (bind/ro). Why? Because we've got statsd running on each host and the containers need to know where to send their stats. We are also modifying the consul config on the fly, as we have no idea what the ip of the container will be until it spawns.
+~~* Yes, this example shows a static `consul.json` which contains a hardcoded cluster assignment. This could easily be set to an `env` that gets set at runtime.~~
+~~* You'll also notice a little `sed` action... We are mounting /etc/hosts from the dockerhost to /hosts/etc/hosts inside the container (bind/ro). Why? Because we've got statsd running on each host and the containers need to know where to send their stats. We are also modifying the consul config on the fly, as we have no idea what the ip of the container will be until it spawns.~~
 
 Bits from `entrypoint.sh`
 ```
@@ -128,17 +130,17 @@ Bits from `entrypoint.sh`
 #add dockerhost ip to /etc/hosts
 grep dockerhost /host/etc/hosts >> /etc/hosts
 
-#drop container hostname and ip into consul config
-myip=`hostname -i`
-myhostname=`hostname`
-sed -i "s/myip/$myip/g" /opt/consul/consul.json
-sed -i "s/myhostname/$myhostname/g" /opt/consul/consul.json
+~~#drop container hostname and ip into consul config
+~~myip=`hostname -i`
+~~myhostname=`hostname`
+~~sed -i "s/myip/$myip/g" /opt/consul/consul.json
+~~sed -i "s/myhostname/$myhostname/g" /opt/consul/consul.json
 
 #launch myapp
 /current/bin/myapp myargs &
 
-#launch consul - launched with exec b/c we want to be able to send SIGTERM when the occasion arises.
-exec /opt/consul/bin/consul agent -config-dir /opt/consul/consul.json
+~~#launch consul - launched with exec b/c we want to be able to send SIGTERM when the occasion arises.
+~~exec /opt/consul/bin/consul agent -config-dir /opt/consul/consul.json
 ```
 
 ## Running a container as a service

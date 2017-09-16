@@ -37,11 +37,11 @@ Swarm can be setup in minutes. You mark a node (preferably more than one to main
 ***
 ## Configure OS Networking
 
-### Trunk existing VLANs to your Dockerhosts
+##### Trunk existing VLANs to your Dockerhosts
 * You dont *have* to, but I would recommend dedicating at least one VLAN/Subnet for containers to ride on
 * You also don't have to use trunking
 
-### Create tagged interfaces for each VLAN that you've trunked. 
+##### Create tagged interfaces for each VLAN that you've trunked. 
 If you just want to ride on a single ip'd interface on your host, that's cool too.
 * As far as trunked VLANs that you've created tagged interfaces for, you can leave them un-ip'd.
    
@@ -50,15 +50,15 @@ If you just want to ride on a single ip'd interface on your host, that's cool to
 8: bond0.40@bond0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP qlen 1000
 ```
    
-### Enable Promiscuous mode for each interface (this is a requirement for Docker to be able to use them for Macvlan)
+##### Enable Promiscuous mode for each interface (this is a requirement for Docker to be able to use them for Macvlan)
 
 ```ip link set dev bond0.40 promisc on```
 
-### ..and in the case of CentOS, persist the change
+##### ..and in the case of CentOS, persist the change
 
 ```echo "PROMISC=yes >> /etc/sysconfig/network-scripts/ifcfg-bond0.40"```
    
-### If you want your host to be able to talk to it's containers, make sure you add a dummy bridged interface described below
+##### If you want your host to be able to talk to it's containers, make sure you add a dummy bridged interface described below
 
 * Create an interface on the same vlan/subnet as your host. Note that the route is to the network range that you specified for the containers to sit on.
 ```
@@ -74,14 +74,14 @@ If you just want to ride on a single ip'd interface on your host, that's cool to
 ***
 ## Configure Docker Networking
 
-### Split your subnet into a few chunks, so you can assign those chunks to each Docker host
+##### Split your subnet into a few chunks, so you can assign those chunks to each Docker host
 * Why in hell do we have to chunk it out? Why can't we specify a global range and leave the IPAM up to Docker? As it sits, Macvlan and IPvlan have dependencies on the underlay network configuration, which swarm manager doesn't currently manage. The current solution is to configure on a per-host basis or you can take advantage of the remote ipam driver, which would allow you to manage via a custom ipam server or something like infoblox (who has written a driver). This issue is on Docker's radar and they are actively working on a more elegant solution (they wanted to get macvlan +  swarm support in our hands in the meantime, as quickly as possible). https://github.com/eyz is also working on a generic IPAM server that might get open sourced. 
 * CIDRs are used to define ranges, not separate, routable subnets. To the traditional network engineer/admin, this might seem odd, but it's just the way they elected to define ranges.
 * There is an <a href="https://gist.github.com/nerdalert/3d2b891d41e0fa8d688c">experimental DHCP driver</a> that will allow you to set a global Macvlan scope, but I havent had a chance to try it.
 * If you have 5 Docker hosts, split out your ranges in whatever chunks you feel appropriate. If you think you'll only ever run 5 containers on each host, maybe a /29 is fine for you, for that subnet. 
 
 
-### Create per-node subnet ranges / networks
+##### Create per-node subnet ranges / networks
 My network is 172.80.0.0/16. I'm going to give each host a /24. I have preexisting hosts already on part of the first /24 of that network, so im going to start at 1.0 and move on. I dont need a network or broadcast address because the ranges fall inside the larger /16 supernet. The network name (in this case `vlan40_net` is arbitrary).
 
 ```
@@ -94,14 +94,14 @@ worker1# docker network create --config-only --subnet 172.80.0.0/16 --gateway 17
 worker2# docker network create --config-only --subnet 172.80.0.0/16 --gateway 172.80.0.1 -o parent=bond0.40 --ip-range 10.90.3.0/24 vlan40_net
 ```
 
-### Create swarm network
+##### Create swarm network
 Now I'm going to create the swarm enabled network, on the manager. This network references the config-only per-node networks we just created. The network name (swarm-vlan40_net) is arbitary.
 
 ```
 manager1# docker network create -d macvlan --scope swarm --config-from vlan40_net swarm-vlan40_net
 ```
 
-### Bask in the glory of Macvlan + Swarm
+##### Bask in the glory of Macvlan + Swarm
 ```
 manager1# docker network ls|grep vlan40
 0c1e0ab98806        vlan40_net            null                local
@@ -111,7 +111,7 @@ znxv8ab5t3n1        swarm-vlan40_net      macvlan             swarm
 ***
 ## You can now use Registrator with Macvlan
 
-### TL;DR 
+##### TL;DR 
 * Use ```gliderlabs/registrator:master``` it contains a PR that was merged to master after 4/16 (the last official release). 
 * Do NOT use ```gliderlabs/registrator:latest```. 
 * ```EXPOSE``` proper port in your ```Dockerfile```

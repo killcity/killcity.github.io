@@ -101,7 +101,7 @@ Now I'm going to create the swarm enabled network, on the manager. This network 
 manager1# docker network create -d macvlan --scope swarm --config-from vlan40_net swarm-vlan40_net
 ```
 
-##### Bask in the glory of Macvlan + Swarm
+##### **Bask in the glory of Macvlan + Swarm**
 ```
 manager1# docker network ls|grep vlan40
 0c1e0ab98806        vlan40_net            null                local
@@ -130,7 +130,7 @@ manager1# docker service create --network swarm-vlan40_net --name portainer port
 manager1# nkbu2j5suypr        portainer             replicated          1/1                 portainer/portainer:latest
 ```
 
-And to see what IPs are used by your containers on a specific host:
+**And to see what IPs are used by your containers on a specific host:**
 
 ```
 manager1# docker network inspect swarm-vlan40_net

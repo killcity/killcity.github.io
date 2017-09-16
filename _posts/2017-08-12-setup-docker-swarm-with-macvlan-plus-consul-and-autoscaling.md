@@ -52,6 +52,10 @@ If you just want to ride on a single ip'd interface on your host, that's cool to
 ### Enable Promiscuous mode for each interface (this is a requirement for Docker to be able to use them for Macvlan)
 
 ```ip link set dev bond0.40 promisc on```
+
+### ..and in the case of CentOS, persist the change
+
+```echo "PROMISC=yes >> /etc/sysconfig/network-scripts/ifcfg-bond0.40"```
    
 ### If you want your host to be able to talk to it's containers, make sure you add a dummy bridged interface described below
 

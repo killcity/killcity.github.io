@@ -34,6 +34,7 @@ In my case, I'm using Consul. It's ubiquitous. Sure, Kubernetes and Swarm both p
 ## Orchestration (Swarm)
 Swarm can be setup in minutes. You mark a node (preferably more than one to maintain quorum) as a manager and it will provide you a tokened url you can paste onto future worker nodes. Kubernetes, being more modular and feature packed, suffers as it's installation is a major pain. It also comes bundled with a bunch of features that are completely unnecessary for a minimalist orchestration layer.
 
+***
 ## Configure OS Networking
 
 ### Trunk existing VLANs to your Dockerhosts

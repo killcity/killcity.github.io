@@ -67,10 +67,11 @@ If you just want to ride on a single ip'd interface on your host, that's cool to
 #ip route add 10.90.255.0/24 dev macnet252
 ```
 
-
+***
 ## Install Docker 17.06 (docker-ce)
 * I recommend running a recent kernel, ie: 4.11.x
 
+***
 ## Configure Docker Networking
 
 ### Split your subnet into a few chunks, so you can assign those chunks to each Docker host
@@ -107,6 +108,7 @@ manager1# docker network ls|grep vlan40
 znxv8ab5t3n1        swarm-vlan40_net      macvlan             swarm
 ```
 
+***
 ## You can now use Registrator with Macvlan
 
 ### TL;DR 
@@ -121,6 +123,7 @@ See <a href="http://killcity.io/2017/09/14/Registrator-support-for-Macvlan-exist
 * ~~Since your container will have a real ip, it will appear in Consul as a host and will be routable.~~
 * ~~Consul needs to run last and stay running, it will get executed via an entrypoint script with `exec`. It needs to be run with `exec` so it gets the honor of running as `PID 1` (so it can receive SIGTERMs when it's time has come). This allows the agent to leave the cluster gracefully. See below.~~
 
+***
 ## Running a container as a service
 ```
 manager1# docker service create --network swarm-vlan40_net --name portainer portainer/portainer
@@ -172,10 +175,13 @@ manager1# docker network inspect swarm-vlan40_net
     }
 ]
 ```
-
+***
 ## UI
-If you must have a UI, I recommend Portainer. https://github.com/portainer/portainer
+If you would dig a UI, I recommend Portainer. https://github.com/portainer/portainer
 
+Another killer way to visualize your cluster is with, Visualizer, naturally. https://hub.docker.com/r/dockersamples/visualizer/tags/
+
+***
 ## Bonus time
 Orbiter. https://github.com/gianarb/orbiter
 

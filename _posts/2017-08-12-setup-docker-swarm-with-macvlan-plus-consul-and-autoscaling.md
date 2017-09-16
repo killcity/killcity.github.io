@@ -69,7 +69,7 @@ If you just want to ride on a single ip'd interface on your host, that's cool to
 
 ***
 ## Install Docker 17.06 (docker-ce)
-* I recommend running a recent kernel, ie: 4.11.x
+* I recommend running a recent kernel, ie: 4.12.x
 
 ***
 ## Configure Docker Networking

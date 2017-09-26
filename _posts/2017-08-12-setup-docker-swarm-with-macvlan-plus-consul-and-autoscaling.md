@@ -67,6 +67,9 @@ If you just want to ride on a single ip'd interface on your host, that's cool to
 #ip route add 10.90.255.0/24 dev macnet252
 ```
 
+* If you are running VMware or some other hypervisor. 
+In the case of VMware, make sure the portgroup your containers are running on, allows promiscuous mode. It's disabled by default. Same for the case of other hypervisors where the virtual switch might have this disabled by default.
+
 ***
 ## Install Docker 17.06 (docker-ce)
 * I recommend running a recent kernel, ie: 4.12.x
